@@ -1,6 +1,9 @@
 # ml_env
 My machine-learning environment setup
-# Repository Overview
+## Support Platform/Arch
+- [x]  Linux/Amd64
+- [ ]  Linux/Arm64
+[docker_hub]([https://example.com](https://hub.docker.com/repository/docker/cheng19930723/ml_env/general))
 
 ## English Version
 
