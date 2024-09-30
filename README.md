@@ -75,7 +75,38 @@ This image is ideal for researchers and data scientists needing a GPU-accelerate
 8. **环境配置：**
    - 适当配置了 CUDA 和 Python 环境变量，确保 GPU 和 Python 工具的可用性和易用性。
 
+
 9. **使用简便：**
    - 默认 shell 启动时会激活虚拟环境，使数据科学和机器学习任务的使用变得更加简单便捷。
 
 这个镜像非常适合需要 GPU 加速环境的研究人员和数据科学家，提供了预先配置的流行机器学习库，并具备编译自定义 GPU 优化软件的灵活性。
+
+---
+# How to Use This Docker Image
+
+## Pulling the Docker Image
+
+To get started, you can pull the Docker image from Docker Hub using the following command:
+
+```sh
+docker pull cheng19930723/ml_env
+```
+This command will download the latest version of the image to your local system.
+
+## Running the Docker Container
+To run a container using the downloaded image, you can use the following command:
+```sh
+docker run --gpus all -it --name my_linux_env_container -v <local_directory>:/app cheng19930723/ml_env
+```
+Explanation:
+- `--gpus all`: Enables GPU support, allowing the container to use all available GPUs on your machine.
+- `-it`: Runs the container in interactive mode with a TTY session.
+- `--name my_linux_env_container`: Names the container as my_linux_env_container for easy reference.
+- `-v <local_directory>:/app`: Mounts a local directory (<local_directory>) to the /app directory inside the container. Replace <local_directory> with the absolute path to the folder you want to share with the container.
+### Example:
+If you want to mount a local directory /home/user/project to the /app directory in the container, the command would be:
+```sh
+docker run --gpus all -it --name my_linux_env_container -v /home/user/project:/app cheng19930723/ml_env
+```
+
+
