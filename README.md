@@ -105,15 +105,19 @@ You need to install the NVIDIA Container Toolkit to enable GPU support in Docker
    curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
    curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
    sudo apt-get update
+   ```
+
 2. **Install the NVIDIA Container Toolkit**:
 
    ```sh
    sudo apt-get install -y nvidia-docker2
-   ...
+   ```
+
 3. **Restart Docker**:
    ```sh
    sudo systemctl restart docker
-   ...
+   ```
+
 After installing the NVIDIA Container Toolkit, you can run Docker containers with GPU support using the '--gpus' flag, as shown in the usage instructions for running the Docker image.
 ## Pulling the Docker Image
 For more details, refer to the official NVIDIA documentation: NVIDIA Container Toolkit Documentation.
@@ -140,5 +144,8 @@ If you want to mount a local directory /home/user/project to the /app directory 
 ```sh
 docker run --gpus all -it --name my_linux_env_container -v /home/user/project:/app cheng19930723/ml_env
 ```
+
+
+
 
 
