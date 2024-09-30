@@ -2,7 +2,7 @@ name: Sync Docker Hub to GitHub Container Registry
 
 on:
   schedule:
-    - cron: '0 2 * * *'  # 每天凌晨2点自动同步
+    - cron: '0 2 * * *'  # 每天凌晨 2 点自动同步
   workflow_dispatch:  # 手动触发同步
   push:
     branches: [ "main" ]  # 每次推送到 main 分支时触发同步
@@ -18,7 +18,7 @@ env:
 
 jobs:
   sync-dockerhub-to-ghcr:
-    runs-on: alpine:latest
+    runs-on: ubuntu-latest
 
     steps:
     # 登录到 Docker Hub
