@@ -83,10 +83,42 @@ This image is ideal for researchers and data scientists needing a GPU-accelerate
 
 ---
 # How to Use This Docker Image
+## Host Machine Requirements
 
+To utilize the GPU capabilities inside the Docker container, the host machine must have the following installed:
+
+### 1. Docker
+Ensure Docker is installed on your host machine. You can follow the official Docker installation guide [here](https://docs.docker.com/get-docker/).
+
+### 2. NVIDIA Driver
+The appropriate NVIDIA driver for your GPU must be installed on the host machine. The driver allows the GPU hardware to communicate with the Docker container.
+
+### 3. NVIDIA Container Toolkit
+You need to install the NVIDIA Container Toolkit to enable GPU support in Docker containers. The toolkit allows Docker to access the GPU hardware. Follow these steps:
+
+#### Installation Steps
+
+1. **Set Up the Package Repository and Install Dependencies**:
+
+   ```sh
+   distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+   curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+   curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+   sudo apt-get update
+2. **Install the NVIDIA Container Toolkit**:
+
+   ```sh
+   sudo apt-get install -y nvidia-docker2
+   ...
+3. **Restart Docker**:
+   ```sh
+   sudo systemctl restart docker
+   ...
+After installing the NVIDIA Container Toolkit, you can run Docker containers with GPU support using the '--gpus' flag, as shown in the usage instructions for running the Docker image.
 ## Pulling the Docker Image
+For more details, refer to the official NVIDIA documentation: NVIDIA Container Toolkit Documentation.
 
-To get started, you can pull the Docker image from Docker Hub using the following command:
+## To get started, you can pull the Docker image from Docker Hub using the following command:
 
 ```sh
 docker pull cheng19930723/ml_env
