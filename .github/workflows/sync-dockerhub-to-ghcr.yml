@@ -18,7 +18,7 @@ env:
 
 jobs:
   sync-dockerhub-to-ghcr:
-    runs-on: ubuntu-latest
+    runs-on: alpine:latest
 
     steps:
     # 登录到 Docker Hub
