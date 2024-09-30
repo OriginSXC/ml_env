@@ -122,7 +122,7 @@ You need to install the NVIDIA Container Toolkit to enable GPU support in Docker
    sudo systemctl restart docker
    ```
 
-After installing the NVIDIA Container Toolkit, you can run Docker containers with GPU support using the '--gpus' flag, as shown in the usage instructions for running the Docker image.
+After installing the NVIDIA Container Toolkit, you can run Docker containers with GPU support using the `--gpus` flag, as shown in the usage instructions for running the Docker image.
 ## Pulling the Docker Image
 For more details, refer to the official NVIDIA documentation: NVIDIA Container Toolkit Documentation.
 
