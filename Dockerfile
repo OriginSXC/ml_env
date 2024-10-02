@@ -6,49 +6,17 @@ USER root
 
 # 更新包列表并安装 wget 和依赖工具
 RUN apt-get update && \
-    apt-get install -y wget curl sudo && \
+    apt-get install -y wget curl sudo \
+    python3.11 python3.11-venv python3.11-dev python3-pip \
+    build-essential git libboost-dev libboost-system-dev libboost-filesystem-dev \
+    ocl-icd-libopencl1 ocl-icd-opencl-dev clinfo && \
     rm -rf /var/lib/apt/lists/*
 
-# 安装 Python 3.11 和相关工具
-RUN apt-get update && \
-    apt-get install -y \
-    python3.11 \
-    python3.11-venv \
-    python3.11-dev \
-    python3-pip && \
-    rm -rf /var/lib/apt/lists/*
-
-# 安装构建工具，包括 Git
-RUN apt-get update && \
-    apt-get install -y \
-    build-essential \
-    git && \
-    rm -rf /var/lib/apt/lists/*
-
-# 安装 OpenCL 相关的工具
-RUN apt-get update && \
-    apt-get install -y \
-    ocl-icd-libopencl1 \
-    ocl-icd-opencl-dev \
-    clinfo && \
-    rm -rf /var/lib/apt/lists/*
-
-# 移除旧版 CMake
-# RUN apt-get remove -y cmake
-
-# 下载并安装新版 CMake 3.28+
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.28.0/cmake-3.28.0-linux-x86_64.sh && \
-    chmod +x cmake-3.28.0-linux-x86_64.sh && \
-    ./cmake-3.28.0-linux-x86_64.sh --skip-license --prefix=/usr/local && \
-    rm cmake-3.28.0-linux-x86_64.sh
-
-# 安装 LightGBM 编译的依赖
-RUN apt-get update && \
-    apt-get install -y \
-    libboost-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev && \
-    rm -rf /var/lib/apt/lists/*
+# 下载并安装新版 CMake 3.30.4
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.30.4/cmake-3.30.4-linux-x86_64.sh && \
+    chmod +x cmake-3.30.4-linux-x86_64.sh && \
+    ./cmake-3.30.4-linux-x86_64.sh --skip-license --prefix=/usr/local && \
+    rm cmake-3.30.4-linux-x86_64.sh
 
 # 设置 Python 3.11 为默认 Python 版本
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 && \
@@ -57,14 +25,16 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
 # 创建 python 指向 python3 的符号链接
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
-# 克隆 LightGBM 仓库并编译 CUDA 版本并安装到系统环境中
-RUN git clone --recursive https://github.com/microsoft/LightGBM && \
-    cd LightGBM && \
-    mkdir build && \
-    cd build && \
-    cmake -DUSE_CUDA=1 .. && \
-    make -j4 && \
-    cd ../ && \
+# 设置 OpenCL vendor 文件，指向正确的 OpenCL 库路径
+RUN mkdir -p /etc/OpenCL/vendors && echo "/usr/local/cuda/targets/x86_64-linux/lib/libOpenCL.so" > /etc/OpenCL/vendors/nvidia.icd
+
+# 克隆 LightGBM 仓库
+RUN git clone --recursive https://github.com/microsoft/LightGBM
+
+# 编译 LightGBM（使用 GPU 支持）
+RUN cd LightGBM && \
+    cmake -B build -S . -DUSE_GPU=1 -DOpenCL_LIBRARY=/usr/local/cuda/targets/x86_64-linux/lib/libOpenCL.so -DOpenCL_INCLUDE_DIR=/usr/local/cuda/targets/x86_64-linux/include && \
+    cmake --build build -j$(nproc) && \
     pip install --upgrade pip && \
     sh ./build-python.sh install --precompile
 
@@ -76,7 +46,7 @@ RUN /opt/venv/bin/pip install --upgrade pip && \
     /opt/venv/bin/pip install \
     torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 && \
     /opt/venv/bin/pip install \
-    xgboost catboost optuna lightning openpyxl neuralprophet && \
+    xgboost catboost optuna lightning openpyxl neuralprophet scikit-learn && \
     /opt/venv/bin/pip install \
     --extra-index-url=https://pypi.nvidia.com \
     cudf-cu11==24.8.* dask-cudf-cu11==24.8.* cuml-cu11==24.8.* \
@@ -94,7 +64,8 @@ ENV CUDA_HOME=/usr/local/cuda
 WORKDIR /app
 
 # 设置默认的 shell，确保每次进入容器时激活 Python 虚拟环境
-RUN echo "source /opt/venv/bin/activate" >> /root/.bashrc
+RUN echo "source /opt/venv/bin/activate" >> /root/.bashrc && \
+    echo "source /opt/venv/bin/activate" >> /etc/bash.bashrc
 
-# 设置镜像的默认命令为 bash，激活虚拟环境
-CMD ["bash", "-l", "-c", "source /opt/venv/bin/activate && exec /bin/bash"]
+# 设置镜像的默认命令为 bash
+CMD ["/bin/bash", "-l"]
