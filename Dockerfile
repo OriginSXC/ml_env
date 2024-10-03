@@ -41,14 +41,25 @@ RUN cd LightGBM && \
 # 创建虚拟环境，允许使用系统环境中的包
 RUN python3 -m venv /opt/venv --system-site-packages
 
-# 激活虚拟环境并安装其他 Python 包到虚拟环境中
-RUN /opt/venv/bin/pip install --upgrade pip && \
-    /opt/venv/bin/pip install \
-    torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 && \
-    /opt/venv/bin/pip install \
-    xgboost catboost optuna lightning openpyxl neuralprophet scikit-learn && \
-    /opt/venv/bin/pip install \
-    --extra-index-url=https://pypi.nvidia.com \
+# 激活虚拟环境并逐步安装其他 Python 包到虚拟环境中
+RUN /opt/venv/bin/pip install --upgrade pip
+RUN /opt/venv/bin/pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+RUN /opt/venv/bin/pip install xgboost
+RUN /opt/venv/bin/pip install catboost
+RUN /opt/venv/bin/pip install optuna
+RUN /opt/venv/bin/pip install lightning
+RUN /opt/venv/bin/pip install openpyxl
+RUN /opt/venv/bin/pip install neuralprophet
+RUN /opt/venv/bin/pip install scikit-learn
+RUN /opt/venv/bin/pip install pandas
+RUN /opt/venv/bin/pip install joblib
+RUN /opt/venv/bin/pip install pytorch-lightning
+RUN /opt/venv/bin/pip install pytorch-forecasting
+RUN /opt/venv/bin/pip install scipy
+RUN /opt/venv/bin/pip install --use-feature=fast-deps --upgrade pip
+
+# 安装 NVIDIA 的额外包
+RUN /opt/venv/bin/pip install --extra-index-url=https://pypi.nvidia.com \
     cudf-cu11==24.8.* dask-cudf-cu11==24.8.* cuml-cu11==24.8.* \
     cugraph-cu11==24.8.* cuspatial-cu11==24.8.* cuproj-cu11==24.8.* \
     cuxfilter-cu11==24.8.* cucim-cu11==24.8.* pylibraft-cu11==24.8.* \
