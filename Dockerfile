@@ -53,7 +53,7 @@ RUN /opt/venv/bin/pip install neuralprophet
 RUN /opt/venv/bin/pip install scikit-learn
 RUN /opt/venv/bin/pip install pandas
 RUN /opt/venv/bin/pip install joblib
-RUN /opt/venv/bin/pip install pytorch-lightning
+RUN /opt/venv/bin/pip install xlsxwriter tensorboard optuna-integration[pytorch_lightning]
 RUN /opt/venv/bin/pip install pytorch-forecasting
 RUN /opt/venv/bin/pip install scipy
 RUN /opt/venv/bin/pip install --use-feature=fast-deps --upgrade pip
