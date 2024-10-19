@@ -1,16 +1,38 @@
-# 使用指定的 NVIDIA CUDA 基础镜像，包含 nvcc
+# 基于指定的 NVIDIA CUDA 基础镜像
 FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 
 # 切换到 root 用户以获得足够权限
 USER root
 
-# 更新包列表并安装 wget 和依赖工具
-RUN apt-get update && \
-    apt-get install -y wget curl sudo \
-    python3.11 python3.11-venv python3.11-dev python3-pip \
-    build-essential git libboost-dev libboost-system-dev libboost-filesystem-dev \
-    ocl-icd-libopencl1 ocl-icd-opencl-dev clinfo && \
+# 设置时区和非交互模式
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/Edmonton
+
+# 更新包列表并安装所需软件和工具
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y  \
+        wget \
+        curl \
+        sudo \
+        python3.11 \
+        python3.11-venv \
+        python3.11-dev \
+        python3-pip \
+        build-essential \
+        git \
+        libboost-dev \
+        libboost-system-dev \
+        libboost-filesystem-dev \
+        ocl-icd-libopencl1 \
+        ocl-icd-opencl-dev \
+        clinfo \
+        postgresql-client \  
+        mysql-client \
+        tzdata && \
     rm -rf /var/lib/apt/lists/*
+
+# 重置 DEBIAN_FRONTEND 避免后续命令受影响
+ENV DEBIAN_FRONTEND=dialog
 
 # 下载并安装新版 CMake 3.30.4
 RUN wget https://github.com/Kitware/CMake/releases/download/v3.30.4/cmake-3.30.4-linux-x86_64.sh && \
@@ -43,6 +65,9 @@ RUN python3 -m venv /opt/venv --system-site-packages
 
 # 激活虚拟环境并逐步安装其他 Python 包到虚拟环境中
 RUN /opt/venv/bin/pip install --upgrade pip
+# 安装 psycopg2 和其他数据库常用包
+RUN /opt/venv/bin/pip install psycopg2-binary asyncpg sqlalchemy tenacity mysql-connector-python pymysql
+# 安装其他数据科学常用包
 RUN /opt/venv/bin/pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 RUN /opt/venv/bin/pip install xgboost
 RUN /opt/venv/bin/pip install catboost
