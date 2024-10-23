@@ -3,6 +3,18 @@ My machine-learning environment setup
 ## Support Platform/Arch
 - [x]  Linux/Amd64
 - [ ]  Linux/Arm64
+---
+
+## Update
+
+**2024 Oct. 18** : Add `mySQL`，`PostgreSQL` support， and `tenacity`, `sqlalchemy`packages.
+
+**2024 Oct. 4** : Add `xlsxwriter`，`tensorboard`， and `optuna-integration[pytorch_lightning]` packages.
+
+**2024 Oct. 2** : Test complete. Add the `sklearn` package, update `Cmake` to 3.30.4, and compile `lightGBM` successfully; Add `joblib` and `pytorch-forecasting` package.
+
+---
+
 
 [**Docker hub**](https://hub.docker.com/repository/docker/cheng19930723/ml_env/general)
 
