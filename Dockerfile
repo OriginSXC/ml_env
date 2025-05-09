@@ -68,7 +68,9 @@ RUN /opt/venv/bin/pip install --upgrade pip
 # 安装 psycopg2 和其他数据库常用包
 RUN /opt/venv/bin/pip install psycopg2-binary asyncpg sqlalchemy tenacity mysql-connector-python pymysql
 # 安装其他数据科学常用包
-RUN /opt/venv/bin/pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+RUN /opt/venv/bin/pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu118
+RUN /opt/venv/bin/pip install mamba-ssm[causal-conv1d] --no-build-isolation
+RUN /opt/venv/bin/pip install xarray cftime
 RUN /opt/venv/bin/pip install xgboost
 RUN /opt/venv/bin/pip install catboost
 RUN /opt/venv/bin/pip install optuna
