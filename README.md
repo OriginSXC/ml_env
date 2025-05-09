@@ -7,6 +7,8 @@ My machine-learning environment setup
 
 ## Update
 
+**2025 May 88** : Add `xarray` and `cftime` to support long time period, and compile `mamba-ssm[causal-conv1d]`.
+
 **2024 Oct. 18** : Add `mySQL`，`PostgreSQL` support， and `tenacity`, `sqlalchemy`packages.
 
 **2024 Oct. 4** : Add `xlsxwriter`，`tensorboard`， and `optuna-integration[pytorch_lightning]` packages.
