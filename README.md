@@ -8,8 +8,9 @@
 ---
 
 ## 更新日志
-
-**2025年5月8日 (最新)**：
+**2025年7月30日**： 
+    * 增加支持`pytorch_tabular`。
+**2025年5月8日**：
 * **基础镜像更新**: 采用 `nvcr.io/nvidia/pytorch:24.04-py3`。
     * 该基础镜像包含：Ubuntu 22.04, Python 3.10, NVIDIA CUDA 12.4, cuDNN 9.1.0.70, NCCL 2.21.5, RAPIDS 24.02, TensorRT 8.6.3, PyTorch, TensorBoard 2.9.0, JupyterLab 2.3.2, TransformerEngine 1.5 等。
 * **CMake 版本**: 安装 CMake 3.30.4。
@@ -60,7 +61,7 @@ This Docker image provides an optimized environment for machine learning tasks w
     -   **Core ML/DL (from base, accessible in venv):** `PyTorch`, `TorchVision`, `TorchAudio`, `TensorRT`.
     -   **Sequence Modeling (installed in venv):** `Mamba-SSM` (built from source with `causal-conv1d`).
     -   **Gradient Boosting (installed in venv):** `XGBoost`, `CatBoost`.
-    -   **General ML & Data Processing (installed in venv):** `scikit-learn`, `Pandas`, `SciPy`, `Joblib`.
+    -   **General ML & Data Processing (installed in venv):** `scikit-learn`, `Pandas`, `SciPy`, `Joblib`,`pytorch_tabular`.
     -   **Time Series (installed in venv):** `NeuralProphet`, `pytorch-forecasting`, `Xarray`, `CFTime`.
     -   **Hyperparameter Optimization & Training (installed in venv):** `Optuna` (with `optuna-integration[pytorch_lightning]`), `Lightning`.
     -   **Database Connectivity (installed in venv):** `SQLAlchemy`, `Tenacity`, `psycopg2-binary` (PostgreSQL), `mysql-connector-python`, `pymysql` (MySQL).
@@ -108,7 +109,7 @@ This image is ideal for researchers and data scientists needing a GPU-accelerate
     -   **核心机器学习/深度学习 (来自基础镜像, venv中可访问):** `PyTorch`, `TorchVision`, `TorchAudio`, `TensorRT`。
     -   **序列建模 (安装于 venv):** `Mamba-SSM` (与 `causal-conv1d` 一同从源码编译)。
     -   **梯度提升 (安装于 venv):** `XGBoost`, `CatBoost`。
-    -   **通用机器学习与数据处理 (安装于 venv):** `scikit-learn`, `Pandas`, `SciPy`, `Joblib`。
+    -   **通用机器学习与数据处理 (安装于 venv):** `scikit-learn`, `Pandas`, `SciPy`, `Joblib`,`pytorch_tabular`。
     -   **时间序列 (安装于 venv):** `NeuralProphet`, `pytorch-forecasting`, `Xarray`, `CFTime`。
     -   **超参数优化与训练 (安装于 venv):** `Optuna` (及 `optuna-integration[pytorch_lightning]`)、`Lightning`。
     -   **数据库连接 (安装于 venv):** `SQLAlchemy`, `Tenacity`, `psycopg2-binary` (PostgreSQL)、`mysql-connector-python`、`pymysql` (MySQL)。
