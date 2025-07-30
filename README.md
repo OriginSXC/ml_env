@@ -10,6 +10,7 @@
 ## 更新日志
 **2025年7月30日**： 
     * 增加支持`pytorch_tabular`。
+    
 **2025年5月8日**：
 * **基础镜像更新**: 采用 `nvcr.io/nvidia/pytorch:24.04-py3`。
     * 该基础镜像包含：Ubuntu 22.04, Python 3.10, NVIDIA CUDA 12.4, cuDNN 9.1.0.70, NCCL 2.21.5, RAPIDS 24.02, TensorRT 8.6.3, PyTorch, TensorBoard 2.9.0, JupyterLab 2.3.2, TransformerEngine 1.5 等。
