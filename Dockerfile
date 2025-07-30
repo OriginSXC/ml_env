@@ -90,6 +90,7 @@ RUN VENV_PIP="/opt/venv/bin/pip" && \
         scikit-learn \
         pandas \
         joblib \
+        pytorch-tabular\
         xlsxwriter tensorboard optuna-integration[pytorch_lightning] \
         pytorch-forecasting \
         scipy && \
